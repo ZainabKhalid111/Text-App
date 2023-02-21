@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; //rfce
 
 export default function Textform(props) {
   //use within component function block...updates values
@@ -34,14 +34,14 @@ export default function Textform(props) {
     // console.log('uppercase was clicked ' + text);
     let newText = text.toUpperCase();
     setText(newText);
-    props.showAlert("Converted to upper case" , "success")
+    props.showAlert("Converted to upper case", "success")
   };
 
   const lowercase = () => {
     // console.log('uppercase was clicked ' + text);
     let newText = text.toLowerCase();
     setText(newText);
-    props.showAlert("Converted to lpper case" , "success")
+    props.showAlert("Converted to lpper case", "success")
 
   };
 
@@ -49,30 +49,56 @@ export default function Textform(props) {
     // console.log('uppercase was clicked ' + text);
     let newText = "";
     setText(newText);
-    props.showAlert("Text Cleared" , "success");
-    
+    props.showAlert("Text Cleared", "success");
+
   };
 
   const copytext = () => {
-    var text = document.getElementById("mybox");
-    text.select();
-    navigator.clipboard.writeText(text.value);
-    document.getSelection().removeAllRanges();
-    props.showAlert(" Copied to Clipboard" , "success");
+    // var text = document.getElementById("mybox");
+    // text.select();
+    navigator.clipboard.writeText(text);
+    // document.getSelection().removeAllRanges();
+    props.showAlert(" Copied to Clipboard", "success");
 
   };
 
   const removeextraspaces = () => {
     let newtext = text.split(/[ ]+/);
-    props.showAlert("Converted to upper case" , "success")
+    props.showAlert("Converted to upper case", "success")
     setText(newtext.join(" "));
-    props.showAlert(" Extra Spaces Removed" , "success");
+    props.showAlert(" Extra Spaces Removed", "success");
 
   };
+
+  const reversetext = () => {
+    let reverse = [];
+    for (let i = text.length - 1; i > -1; i--) {
+      reverse.push(text[i]);
+    }
+    console.log(reverse);
+    setText(reverse.toString().replaceAll(',', ''));
+    props.showAlert(" String reversed", "success");
+  }
+
+  const reversewordsorder = () => {
+    let totalwords = text.split(/\s+/).filter((element) => {
+      return element.length !== 0;
+    }).length;
+    // console.log(text);
+    let wordslist = [];
+    for (let i = totalwords; i > 0; i--) {
+      // console.log(totalwords);
+      wordslist.push(text[i]);
+    }
+    console.log(wordslist);
+    setText(wordslist.toString().replaceAll(',', ''));
+    // props.showAlert(" Words in String reversed", "success");
+  }
 
   const handleonchange = (event) => {
     // console.log('on change');
     setText(event.target.value);
+
   };
 
   return (
@@ -134,10 +160,19 @@ export default function Textform(props) {
         <button
           disabled={text.length === 0}
           className="btn btn-primary m-1"
-          onClick={togglestate}
+          onClick={reversetext}
         >
-          {btntext}
+          Reverse text
         </button>
+
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary m-1"
+          onClick={reversewordsorder}
+        >
+          Reverse Words
+        </button>
+
       </div>
       <div
         className="container my-3"
@@ -146,7 +181,7 @@ export default function Textform(props) {
         <h2> Your Text Summary </h2>
         <p>
           {
-            text.split(" ").filter((element) => {
+            text.split(/\s+/).filter((element) => {
               return element.length !== 0;
             }).length
           }
